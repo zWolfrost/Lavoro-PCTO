@@ -7,10 +7,17 @@ const bookmarkFlipSpeed = 75;
 for (const book of document.getElementsByClassName("book"))
 {
    const pages = Array.from(book.getElementsByClassName("page"));
+   const bookmarks = Array.from(book.getElementsByClassName("bookmark"));
 
-   for (let i=0; i<pages.length; i+=2)
+   for (let i=0; i<pages.length; i++)
    {
       pages[i].style.zIndex = pages.length - i;
+   }
+
+   for (let i=0; i<bookmarks.length; i++)
+   {
+      bookmarks[i].style.top = ((i / bookmarks.length * 80) + 10) + "%";
+      bookmarks[i].style.visibility = "visible";
    }
 
 
@@ -35,8 +42,7 @@ for (const book of document.getElementsByClassName("book"))
       })
    }
 
-
-   for (const bookmark of book.getElementsByClassName("bookmark"))
+   for (const bookmark of bookmarks)
    {
       bookmark.addEventListener("click", async function(e)
       {
@@ -45,8 +51,6 @@ for (const book of document.getElementsByClassName("book"))
          if (flippingNumber == 0)
          {
             let bookmarkIndex = pages.indexOf(this.parentElement);
-            if (bookmarkIndex % 2 == 0) bookmarkIndex++ // +1 because the bookmark is on odd pages
-
             let currentPageIndex = pages.indexOf(book.querySelector(this.parentElement.classList.contains("flipped") ? LeftOpenPageSelector : RightOpenPageSelector))
 
             let betweenPages = pages.slice(Math.min(bookmarkIndex, currentPageIndex), Math.max(bookmarkIndex, currentPageIndex) +1)
@@ -79,6 +83,7 @@ function flipPage(mainPage)
       {
          page.classList.toggle("flipped");
          page.classList.add("flipping");
+         page.style.zIndex = -page.style.zIndex;
       }
 
       mainPage.addEventListener("transitionend", e =>

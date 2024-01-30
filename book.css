@@ -1,7 +1,8 @@
-.book *, .book *:before, .book *:after
+/* .book *, .book *:before, .book *:after
 {
    box-sizing: border-box;
-}
+} */
+
 .book
 {
    transition: opacity 0.4s 0.2s;
@@ -25,12 +26,14 @@
    clear: none;
    position: absolute;
    transform-origin: 0 0;
-   transition: transform 1.4s;
+   transition: transform var(--page-flip-duration);
    backface-visibility: hidden;
    transform-style: preserve-3d;
+   box-sizing: border-box;
    cursor: pointer;
    user-select: none;
    background-color: #f0f0f0;
+   touch-action: manipulation;
 }
 /* .book .page:before
 {
@@ -54,7 +57,6 @@
    transform-origin: 100% 0;
    left: 0;
    border-radius: 4px 0 0 4px;
-   border-color: black;
    background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
 }
 .book .page:nth-child(odd)
@@ -66,7 +68,7 @@
    background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
 }
 
-.book .page:nth-child(even):before
+/* .book .page:nth-child(even):before
 {
    background: rgba(0, 0, 0, 0.2);
 }
@@ -82,7 +84,7 @@
 .book .page:nth-child(odd):hover:before
 {
    background: rgba(0, 0, 0, 0.03);
-}
+} */
 
 .book .page.flipped:nth-child(even)
 {
@@ -95,14 +97,14 @@
    transform: rotateY(-180deg);
 }
 
-.book .page.flipped:nth-child(even):before
+/* .book .page.flipped:nth-child(even):before
 {
    background: rgba(0, 0, 0, 0);
 }
 .book .page.flipped:nth-child(odd):before
 {
    background: rgba(0, 0, 0, 0.2);
-}
+} */
 
 .book .page:not(.flipping):nth-last-child(1 of .flipped):hover
 {
@@ -127,11 +129,12 @@
 .book .page .bookmark
 {
    position: absolute;
-
    pointer-events: all;
 
    width: var(--bookmark-width);
    height: var(--bookmark-height);
+
+   overflow: hidden;
 }
 .book .page .bookmark img
 {
@@ -141,8 +144,15 @@
 }
 .book .page:nth-child(even) .bookmark
 {
-   left: calc( var(--bookmark-inset) - var(--bookmark-width) );
-   width: calc( var(--bookmark-width) );
+   left:  calc( var(--bookmark-inset) - var(--bookmark-width) );
+   width: var(--bookmark-width);
 
    transform: rotateY(180deg);
+}
+.book .page:nth-child(odd) .bookmark
+{
+   right: calc( var(--bookmark-inset) - var(--bookmark-width) );
+   width: var(--bookmark-width);
+
+   transform: rotateY(0deg);
 }
