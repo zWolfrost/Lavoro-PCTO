@@ -7,7 +7,9 @@
 {
    transition: opacity 0.4s 0.2s;
    perspective: 250vw;
+   -webkit-transform-style: preserve-3d;
    transform-style: preserve-3d;
+   -webkit-backface-visibility: hidden;
    backface-visibility: hidden;
 }
 .book .page
@@ -15,16 +17,22 @@
    float: none;
    clear: none;
    position: absolute;
+   -webkit-transform-origin: 0 0;
    transform-origin: 0 0;
+   -webkit-transition: -webkit-transform var(--page-flip-duration);
    transition: transform var(--page-flip-duration);
-   backface-visibility: hidden;
+   -webkit-transform-style: preserve-3d;
    transform-style: preserve-3d;
    box-sizing: border-box;
    cursor: pointer;
    user-select: none;
    background-color: #f0f0f0;
    touch-action: manipulation;
-   /* float: left; */
+}
+.book .page.flipping
+{
+   -webkit-backface-visibility: hidden;
+   backface-visibility: hidden;
 }
 .book .page:before
 {
@@ -35,7 +43,7 @@
    left: 0;
    right: 0;
    background: rgba(0, 0, 0, 0);
-   transition: background 0.7s;
+   transition: background-color 0.7s;
    z-index: 2;
 }
 
@@ -44,7 +52,9 @@
 .book .page:nth-child(even)
 {
    pointer-events: none;
+   -webkit-transform: rotateY(180deg);
    transform: rotateY(180deg);
+   -webkit-transform-origin: 100% 0;
    transform-origin: 100% 0;
    left: 0;
    border-radius: 4px 0 0 4px;
@@ -53,6 +63,7 @@
 .book .page:nth-child(odd)
 {
    pointer-events: all;
+   -webkit-transform: rotateY(0deg);
    transform: rotateY(0deg);
    right: 0;
    border-radius: 0 4px 4px 0;
@@ -80,11 +91,13 @@
 .book .page.flipped:nth-child(even)
 {
    pointer-events: all;
+   -webkit-transform: rotateY(0deg);
    transform: rotateY(0deg);
 }
 .book .page.flipped:nth-child(odd)
 {
    pointer-events: none;
+   -webkit-transform: rotateY(-180deg);
    transform: rotateY(-180deg);
 }
 
@@ -99,19 +112,23 @@
 
 .book .page:not(.flipping):nth-last-child(1 of .flipped):hover
 {
+   -webkit-transform: rotateY( calc(var(--page-hover-tilt) - 180deg) );
    transform: rotateY( calc(var(--page-hover-tilt)) );
 }
 .book .page:not(.flipping):nth-child(1 of :not(.flipped)):hover
 {
+   -webkit-transform: rotateY( calc(180deg - var(--page-hover-tilt)) );
    transform: rotateY( calc(0deg - var(--page-hover-tilt)) );
 }
 
 .book .page:has(+ .page:not(.flipping):nth-last-child(1 of .flipped):hover)
 {
+   -webkit-transform: rotateY( calc(var(--page-hover-tilt) - 180deg) );
    transform: rotateY( calc(var(--page-hover-tilt) - 180deg ) );
 }
 .book .page:not(.flipping):nth-child(1 of :not(.flipped)):hover + .page
 {
+   -webkit-transform: rotateY( calc(180deg - var(--page-hover-tilt)) );
    transform: rotateY( calc(180deg - var(--page-hover-tilt)) );
 }
 
@@ -138,6 +155,7 @@
    left:  calc( var(--bookmark-inset) - var(--bookmark-width) );
    width: var(--bookmark-width);
 
+   -webkit-transform: rotateY(180deg);
    transform: rotateY(180deg);
 }
 .book .page:nth-child(odd) .bookmark
@@ -145,5 +163,6 @@
    right: calc( var(--bookmark-inset) - var(--bookmark-width) );
    width: var(--bookmark-width);
 
+   -webkit-transform: rotateY(0deg);
    transform: rotateY(0deg);
 }
