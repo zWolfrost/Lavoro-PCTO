@@ -1,8 +1,3 @@
-/* .book *, .book *:before, .book *:after
-{
-   box-sizing: border-box;
-} */
-
 .book
 {
    transition: opacity 0.4s 0.2s;
@@ -28,6 +23,14 @@
    user-select: none;
    background-color: #f0f0f0;
    touch-action: manipulation;
+}
+@-moz-document url-prefix()
+{
+   .book .page
+   {
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+   }
 }
 .book .page.flipping
 {
@@ -149,6 +152,7 @@
    width: 100%;
    height: 100%;
    object-fit: cover;
+   pointer-events: none;
 }
 .book .page:nth-child(even) .bookmark
 {

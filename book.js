@@ -83,10 +83,6 @@ function flipPage(mainPage)
       {
          page.classList.toggle("flipped");
          page.classList.add("flipping");
-      }
-
-      for (let page of bothPages)
-      {
          page.style.zIndex = -page.style.zIndex;
       }
 
