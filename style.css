@@ -1,16 +1,3 @@
-:root
-{
-   --page-width: 30vw;
-   --page-height: 40vw;
-
-   --bookmark-width: 5vw;
-   --bookmark-height: 4vw;
-   --bookmark-inset: 0vw;
-
-   --page-hover-tilt: 15deg;
-   --page-flip-duration: 1s;
-}
-
 html, body
 {
    margin: 0;
@@ -26,13 +13,11 @@ html, body
    top: 50%;
    transform: translate(-50%, -50%);
 
-   width: calc( var(--page-width) * 2 );
-   height: var(--page-height);
+   width: 60vw;
+   height: 40vw;
 }
 .book .page
 {
-   width: var(--page-width);
-   height: var(--page-height);
    padding: 1em;
 }
 .book .page .bookmark
@@ -40,9 +25,38 @@ html, body
    visibility: hidden;
 }
 
-md-block
+
+
+.book .page
 {
-   text-align: center;
-   overflow: hidden;
+   font-family: "Open Sans";
    font-size: 1vw;
+   text-align: center;
+}
+
+.book .page header
+{
+   font-size: 2em;
+   margin-top: 0.67em;
+   margin-bottom: 0.67em;
+   margin-left: 0;
+   margin-right: 0;
+   font-weight: bold;
+}
+.book .page footer
+{
+   position: absolute;
+   bottom: 0;
+   padding: 1em;
+   color: black;
+   font-size: 0.8em;
+   text-align: center;
+}
+.book .page:nth-child(even) footer
+{
+   left: 0;
+}
+.book .page:nth-child(odd) footer
+{
+   right: 0;
 }

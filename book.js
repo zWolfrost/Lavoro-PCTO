@@ -54,12 +54,24 @@ for (const book of document.getElementsByClassName("book"))
             let currentPageIndex = pages.indexOf(book.querySelector(this.parentElement.classList.contains("flipped") ? LeftOpenPageSelector : RightOpenPageSelector))
 
             let betweenPages = pages.slice(Math.min(bookmarkIndex, currentPageIndex), Math.max(bookmarkIndex, currentPageIndex) +1)
-            if (currentPageIndex > bookmarkIndex) betweenPages = betweenPages.reverse();
 
-            for (let i=0; i<betweenPages.length-1; i+=2)
+            if (currentPageIndex > bookmarkIndex)
             {
-               flipPage(betweenPages[i])
-               await sleep(bookmarkFlipSpeed);
+               for (let i=betweenPages.length-1; i>0; i-=2)
+               {
+                  flippingNumber--;
+                  flipPage(betweenPages[i]).then(() => flippingNumber++)
+                  await sleep(bookmarkFlipSpeed);
+               }
+            }
+            else
+            {
+               for (let i=0; i<betweenPages.length-1; i+=2)
+               {
+                  flippingNumber++;
+                  flipPage(betweenPages[i]).then(() => flippingNumber--)
+                  await sleep(bookmarkFlipSpeed);
+               }
             }
          }
       })
@@ -77,7 +89,7 @@ function flipPage(mainPage)
       let otherPage = mainPageIndex % 2 == 0 ? mainPage.nextElementSibling : mainPage.previousElementSibling;
       let bothPages = [mainPage, otherPage];
 
-      console.log(`Flipping page ${mainPageIndex+1}`);
+      /* console.log(`Flipping page ${mainPageIndex+1}`); */
 
       for (let page of bothPages)
       {
