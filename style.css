@@ -31,7 +31,6 @@ html, body
 {
    font-family: "Open Sans";
    font-size: 1vw;
-   text-align: center;
 }
 
 .book .page header
@@ -42,6 +41,7 @@ html, body
    margin-left: 0;
    margin-right: 0;
    font-weight: bold;
+   text-align: center;
 }
 .book .page footer
 {

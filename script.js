@@ -2,10 +2,10 @@ for (const book of document.getElementsByClassName("book"))
 {
    const pages = Array.from(book.getElementsByClassName("page"));
 
-   for (let i=0; i<pages.length; i++)
+   for (let i=1; i<pages.length-1; i++)
    {
       const footer = document.createElement("footer");
-      footer.innerHTML = `${(i+1).toString().padStart(2, "0")} / ${pages.length}`;
+      footer.innerHTML = i.toString().padStart(2, "0");
 
       pages[i].appendChild(footer);
    }
