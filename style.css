@@ -6,12 +6,46 @@ html, body
    background: #333;
 }
 
+
+body > header
+{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 1em;
+
+   background: #333;
+   color: white;
+   padding: 10px;
+   text-align: center;
+   font-size: 30px;
+   font-family: "Open Sans";
+   font-weight: bold;
+   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.5);
+}
+
+body > footer
+{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 1em;
+
+   background: #333;
+   color: white;
+   padding: 10px;
+   text-align: center;
+   font-size: 30px;
+   font-family: "Open Sans";
+   font-weight: bold;
+   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.5);
+}
+
+
 .book
 {
    position: relative;
-   left: 50%;
-   top: 50%;
-   transform: translate(-50%, -50%);
+   margin: 20px auto;
 
    width: 60vw;
    height: 40vw;
@@ -24,7 +58,6 @@ html, body
 {
    visibility: hidden;
 }
-
 
 
 .book .page
@@ -59,4 +92,16 @@ html, body
 .book .page:nth-child(odd) footer
 {
    right: 0;
+}
+
+
+.book .page .bookmark
+{
+   border-radius: 0 2px 2px 0;
+}
+
+
+.book .page:nth-child(1), .book .page:nth-last-child(1)
+{
+   background: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px); background-size: 10px 10px;
 }

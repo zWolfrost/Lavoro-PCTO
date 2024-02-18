@@ -16,7 +16,7 @@ for (const book of document.getElementsByClassName("book"))
 
    for (let i=0; i<bookmarks.length; i++)
    {
-      bookmarks[i].style.top = ((i / bookmarks.length * 80) + 10) + "%";
+      bookmarks[i].style.top = ((i / bookmarks.length * 80) + 15) + "%";
       bookmarks[i].style.visibility = "visible";
    }
 
