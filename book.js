@@ -20,26 +20,9 @@ for (const book of document.getElementsByClassName("book"))
       bookmarks[i].style.visibility = "visible";
    }
 
-
-   let flippingNumber = 0;
-
    for (const page of pages)
    {
-      page.addEventListener("click", function()
-      {
-         const pageIndex = pages.indexOf(page);
-
-         if (pageIndex % 2 == 0 && flippingNumber >= 0)
-         {
-            flippingNumber++;
-            flipPage(page).then(() => flippingNumber--)
-         }
-         else if (pageIndex % 2 == 1 && flippingNumber <= 0)
-         {
-            flippingNumber--;
-            flipPage(page).then(() => flippingNumber++)
-         }
-      })
+      page.addEventListener("click", () => flipPage(page))
    }
 
    for (const bookmark of bookmarks)
@@ -48,30 +31,25 @@ for (const book of document.getElementsByClassName("book"))
       {
          e.stopPropagation();
 
-         if (flippingNumber == 0)
+         let bookmarkIndex = pages.indexOf(this.parentElement);
+         let currentPageIndex = pages.indexOf(book.querySelector(this.parentElement.classList.contains("flipped") ? LeftOpenPageSelector : RightOpenPageSelector))
+
+         let betweenPages = pages.slice(Math.min(bookmarkIndex, currentPageIndex), Math.max(bookmarkIndex, currentPageIndex) +1)
+
+         if (currentPageIndex > bookmarkIndex)
          {
-            let bookmarkIndex = pages.indexOf(this.parentElement);
-            let currentPageIndex = pages.indexOf(book.querySelector(this.parentElement.classList.contains("flipped") ? LeftOpenPageSelector : RightOpenPageSelector))
-
-            let betweenPages = pages.slice(Math.min(bookmarkIndex, currentPageIndex), Math.max(bookmarkIndex, currentPageIndex) +1)
-
-            if (currentPageIndex > bookmarkIndex)
+            for (let i=betweenPages.length-1; i>0; i-=2)
             {
-               for (let i=betweenPages.length-1; i>0; i-=2)
-               {
-                  flippingNumber--;
-                  flipPage(betweenPages[i]).then(() => flippingNumber++)
-                  await sleep(bookmarkFlipSpeed);
-               }
+               flipPage(betweenPages[i])
+               await sleep(bookmarkFlipSpeed);
             }
-            else
+         }
+         else
+         {
+            for (let i=0; i<betweenPages.length-1; i+=2)
             {
-               for (let i=0; i<betweenPages.length-1; i+=2)
-               {
-                  flippingNumber++;
-                  flipPage(betweenPages[i]).then(() => flippingNumber--)
-                  await sleep(bookmarkFlipSpeed);
-               }
+               flipPage(betweenPages[i])
+               await sleep(bookmarkFlipSpeed);
             }
          }
       })
@@ -79,35 +57,38 @@ for (const book of document.getElementsByClassName("book"))
 }
 
 
-function flipPage(mainPage)
+function flipPage(mainPage, safe=true)
 {
-   return new Promise(resolve =>
+   if (safe && (mainPage?.matches(LeftOpenPageSelector) || mainPage?.matches(RightOpenPageSelector)))
    {
-      const pages = mainPage.parentElement.getElementsByClassName("page");
-      const mainPageIndex = Array.from(pages).indexOf(mainPage);
-
-      let otherPage = mainPageIndex % 2 == 0 ? mainPage.nextElementSibling : mainPage.previousElementSibling;
-      let bothPages = [mainPage, otherPage];
-
-      /* console.log(`Flipping page ${mainPageIndex+1}`); */
-
-      for (let page of bothPages)
+      return new Promise(async resolve =>
       {
-         page.classList.toggle("flipped");
-         page.classList.add("flipping");
-         page.style.zIndex = -page.style.zIndex;
-      }
+         const pages = mainPage.parentElement.getElementsByClassName("page");
+         const mainPageIndex = Array.from(pages).indexOf(mainPage);
 
-      mainPage.addEventListener("transitionend", e =>
-      {
+         let otherPage = mainPageIndex % 2 == 0 ? mainPage.nextElementSibling : mainPage.previousElementSibling;
+         let bothPages = [mainPage, otherPage];
+
+         /* console.log(`Flipping page ${mainPageIndex+1}`); */
+
          for (let page of bothPages)
          {
-            page.classList.remove("flipping");
+            page.classList.toggle("flipped");
+            page.classList.add("flipping");
+            page.style.zIndex = -page.style.zIndex;
          }
 
-         resolve(e);
-      }, {once: true});
-   });
+         mainPage.addEventListener("transitionend", e =>
+         {
+            for (let page of bothPages)
+            {
+               page.classList.remove("flipping");
+            }
+
+            resolve(e);
+         }, {once: true});
+      });
+   }
 }
 
 function sleep(ms)
