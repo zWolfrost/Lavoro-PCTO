@@ -170,6 +170,7 @@
    height: 100%;
    object-fit: cover;
    pointer-events: none;
+   border-radius: calc( var(--bookmark-inset)/2 );
 }
 .book .page:nth-child(even) .bookmark
 {
