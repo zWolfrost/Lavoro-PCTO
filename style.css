@@ -81,9 +81,9 @@ body > header
 
 .book .page:nth-child(1)
 {
-   background: linear-gradient( 90deg, dodgerblue 10px, transparent 10px ), linear-gradient( 180deg, white 28%, #e5e5f7 28% );
+   background: linear-gradient( 90deg, dodgerblue 2%, transparent 10px ), linear-gradient( 180deg, white 28%, #e5e5f7 28% );
 }
 .book .page:nth-last-child(1)
 {
-   background: linear-gradient( -90deg, dodgerblue 10px, transparent 10px ), #e5e5f7
+   background: linear-gradient( -90deg, dodgerblue 2%, transparent 10px ), #e5e5f7
 }
