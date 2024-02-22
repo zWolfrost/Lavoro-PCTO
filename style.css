@@ -12,7 +12,6 @@ body > header, body > footer
 {
    background: #333;
    color: white;
-   font-family: "Times New Roman";
    padding: 12px;
    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.5);
 }
@@ -25,6 +24,7 @@ body > header
    gap: 1em;
 
    text-align: center;
+   font-family: "Times New Roman";
    font-size: 30px;
    font-weight: bold;
 }
