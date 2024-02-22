@@ -2,9 +2,11 @@
 {
    --bookmark-width: 5vw;
    --bookmark-height: 4vw;
-   --bookmark-inset: 1vw; /* forbidden */
+   --bookmark-inset: 1vw;
 
    --page-hover-tilt: 15deg;
+   --page-safe-tilt: 1deg;
+   --page-safe-move: 1px;
    --page-flip-duration: 1s;
 }
 
@@ -30,8 +32,8 @@
 
    -webkit-transform-origin: 0 0;
    transform-origin: 0 0;
-   -webkit-transition: -webkit-transform var(--page-flip-duration);
-   transition: transform var(--page-flip-duration);
+   -webkit-transition: -webkit-transform var(--page-flip-duration), right var(--page-flip-duration), left var(--page-flip-duration);
+   transition: transform var(--page-flip-duration), right var(--page-flip-duration), left var(--page-flip-duration);
    -webkit-transform-style: preserve-3d;
    transform-style: preserve-3d;
    box-sizing: border-box;
@@ -143,13 +145,24 @@
 
 .book .page:has(+ .page:not(.flipping):nth-last-child(1 of .flipped):hover)
 {
-   -webkit-transform: rotateY( calc(var(--page-hover-tilt) - 180deg - 1deg) );
-   transform:         rotateY( calc(var(--page-hover-tilt) - 180deg - 1deg) );
+   -webkit-transform: rotateY( calc(var(--page-hover-tilt) - 180deg - var(--page-safe-tilt)) );
+   transform:         rotateY( calc(var(--page-hover-tilt) - 180deg - var(--page-safe-tilt)) );
+   right: var(--page-safe-move);
 }
 .book .page:not(.flipping):nth-child(1 of :not(.flipped)):hover + .page
 {
-   -webkit-transform: rotateY( calc(180deg - var(--page-hover-tilt) + 1deg) );
-   transform:         rotateY( calc(180deg - var(--page-hover-tilt) + 1deg) );
+   -webkit-transform: rotateY( calc(180deg - var(--page-hover-tilt) + var(--page-safe-tilt)) );
+   transform:         rotateY( calc(180deg - var(--page-hover-tilt) + var(--page-safe-tilt)) );
+   left: var(--page-safe-move);
+}
+
+.book .page:not(.flipped).flipping:nth-child(even)
+{
+   left: var(--page-safe-move);
+}
+.book .page.flipped.flipping:nth-child(odd)
+{
+   right: var(--page-safe-move);
 }
 
 
